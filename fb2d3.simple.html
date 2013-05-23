@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>fb2d3 simple test</title>
+</head>
+<body>
+    <div id="fb-root"></div>
+    <ul id="textList"></ul>
+
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/topojson.v0.min.js"></script>
+    <script src="infrastructure.js"></script>
+    <script src="data/fbfilteredsource.js"></script>
+    <script src="display/d3pageworld.js"></script>
+    <script src="fb2d3.js"></script>
+
+    <script>
+        window.fbAsyncInit = function () {
+            FullTest();
+        };
+
+        (function (d, debug) {
+            var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement('script'); js.id = id; js.async = true;
+            js.src = "//connect.facebook.net/en_US/all" + (debug ? "/debug" : "") + ".js";
+            ref.parentNode.insertBefore(js, ref);
+        }(document, /*debug*/ false));
+    </script>
+</body>
+</html>

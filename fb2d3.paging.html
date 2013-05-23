@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>fb2d3 paging test</title>
+</head>
+<body>
+    <div id="fb-root"></div>
+    <ul id="textList"></ul>
+    <div id="map-canvas" style="height:90%;top:30px"></div>
+
+    <button onclick="clickNextPage()">Next</button>
+
+    <!--<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>-->
+    <script src="js/vendor/jquery-2.0.0.min.js"></script>
+
+    <!--<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>-->
+    <script src="js/vendor/d3.v3.min.js" charset="utf-8"></script>
+    <!--<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.0.8/d3.min.js"></script>-->
+
+    <!--<script src="http://d3js.org/topojson.v0.min.js"></script>-->
+    <script src="js/vendor/topojson.v0.min.js"></script>
+
+    <script src="fb2d3/infrastructure.js"></script>
+    <script src="fb2d3/data/fbfilteredsource.js"></script>
+    <script src="fb2d3/geocoder/gmapgeocoder.js"></script>
+    <script src="fb2d3/display/d3pageworld.js"></script>
+    <script src="fb2d3/fb2d3.js"></script>
+    <script>
+
+        function clickNextPage() {
+            //NextPage();
+            NextPageAsync();
+        }
+
+        window.fbAsyncInit = function () {
+            // FirstPage();
+            FirstPageAsync();
+        };
+
+    </script>
+    <script src="js/fbloader.js"></script>
+    <script src="js/ggloader.js"></script>
+</body>
+</html>

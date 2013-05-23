@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>fb2d3 offline test</title>
+</head>
+<body>
+    <script src="../js/vendor/d3.v2.js"></script>
+    <script src="infrastructure.js"></script>
+    <script src="data/fbapi.js"></script>
+    <script src="display/d3api.js"></script>
+    <script src="data/odapi.js"></script>
+    <script src="fb2d3.js"></script>
+    <script>
+        (function () {
+            var dataSource = new OfflineDataSource();
+            var display = new D3NodeDisplay();
+
+            dataSource.GetInfoNodes(function (names) {
+                display.BySVGTextNode(names);
+            });
+        }());
+    </script>
+</body>
+</html>
