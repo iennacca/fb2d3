@@ -58,6 +58,8 @@ interface ID3Base extends ID3Selectors {
     random: ID3Random;
     behavior: ID3Behavior;
     event: ID3Event;
+
+    mouse(obj: any): any;
 }
 
 interface ID3Selection extends ID3Selectors {
@@ -288,14 +290,17 @@ interface ID3Random {
 }
 
 interface ID3Geography {
-    mercator() : ID3Projection;
+    mercator(): ID3Projection;
     path(): ID3PathGenerator;
+    orthographic(): ID3Projection;
 }
 
 interface ID3Projection {
     center(point: number[]): ID3Projection;
     scale(scalar: number): ID3Projection;
     rotate(point: number[]): ID3Projection;
+    translate(coordinates: Array): ID3Projection;
+    clipAngle(angle: number): ID3Projection;
 }
 
 interface ID3PathGenerator {

@@ -1,29 +1,32 @@
 /**
  * Created with JetBrains WebStorm.
  * User: Jerry
- * Date: 4/10/13
- * Time: 7:56 PM
+ * Date: 5/24/13
+ * Time: 6:52 AM
  * To change this template use File | Settings | File Templates.
  */
 /// <reference path="../../js/d3.d.ts" />
 /// <reference path="../infrastructure.ts" />
 
-class D3WorldMapPageDisplay implements InfoNodePageDisplay {
+class D3OrthogonalPageDisplay implements InfoNodePageDisplay {
     static mapDataFile = "fb2d3/map/world-110m2.json";
     static locationsFile = "fb2d3/map/cities.csv";
     svg: ID3Selection;
     prj: ID3Projection;
+    width: number;
+    height: number;
+
+    constructor() {
+        this.width = 800; this.height = 480;
+    }
 
     private getSVG(): ID3Selection {
-        var width, height: number;
-
         if (this.svg != undefined)
             return this.svg;
 
-        width = 800; height = 480;
         this.svg = d3.select("body").append("svg")
-            .attr("width", width)
-            .attr("height", height);
+            .attr("width", this.width)
+            .attr("height", this.height);
         return this.svg;
     }
 
@@ -31,10 +34,10 @@ class D3WorldMapPageDisplay implements InfoNodePageDisplay {
         if (this.prj != undefined)
             return this.prj;
 
-        this.prj = d3.geo.mercator()
-            .center([0, 5])
-            .scale(200)
-            .rotate([-180,0]);
+        this.prj = d3.geo.orthographic()
+            .scale(250)
+            .translate([this.width / 2, this.height / 2])
+            .clipAngle(90);
 
         return this.prj;
     }
@@ -42,14 +45,20 @@ class D3WorldMapPageDisplay implements InfoNodePageDisplay {
     DrawPage(nodes: MappedInfoNode[]) {
         var svg = this.getSVG();
         var projection = this.getProjection();
-
         var path = d3.geo.path()
             .projection(projection);
-
         var g = svg.append("g");
 
+        var lambda = d3.scale.linear()
+            .domain([0, this.width])
+            .range([-180, 180]);
+
+        var theta = d3.scale.linear()
+            .domain([0, this.height])
+            .range([90, -90]);
+
         // load the world
-        d3.json(D3WorldMapPageDisplay.mapDataFile, function(error, topology) {
+        d3.json(D3OrthogonalPageDisplay.mapDataFile, function(error, topology) {
 
             // display the world
             g.selectAll("path")
@@ -74,18 +83,24 @@ class D3WorldMapPageDisplay implements InfoNodePageDisplay {
                 .append("title").text(function(d:MappedInfoNode) { return d.Name; });
         });
 
-        // zoom and pan the map
-        var zoom = d3.behavior.zoom()
-            .on("zoom",function() {
-                g.attr("transform","translate("+
-                    d3.event.translate.join(",")+")scale("+d3.event.scale+")");
-                g.selectAll("path")
-                    .attr("d", path.projection(projection));
-                g.selectAll("circle")
-                    .attr("d", path.projection(projection));
-            });
+        // rotate the map
+        var rotation: bool;
 
-        svg.call(zoom)
+        svg.on("mousedown", function() { rotation = true; });
+        svg.on("mousemove", function() {
+            if (!rotation) return;
+            var p = d3.mouse(this);
+            projection.rotate([lambda(p[0]), theta(p[1])]);
+            g.selectAll("circle")
+                .attr("cx", function(d:MappedInfoNode) {
+                    return projection([d.Longitude, d.Latitude])[0];
+                })
+                .attr("cy", function(d:MappedInfoNode) {
+                    return projection([d.Longitude, d.Latitude])[1];
+                });
+            svg.selectAll("path").attr("d", path);
+        });
+        svg.on("mouseup", function() { rotation = false; });
     }
 
     RefreshPage(nodes: InfoNode[]) {

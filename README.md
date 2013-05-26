@@ -1,4 +1,4 @@
-# [FB2D3]
+# FB2D3
 
 This is a test README.
 
