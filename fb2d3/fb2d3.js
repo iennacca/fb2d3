@@ -1,6 +1,6 @@
 var dataSource = new FBFilteredSource();
 var geocoder = new GMapGeocoder();
-var pageDisplay = new D3OrthogonalPageDisplay();
+var pageDisplay = new D3OrthoClipPageDisplay();
 function FullTest() {
     dataSource.GetInfoNodes(function (names) {
         pageDisplay.DrawPage(names);

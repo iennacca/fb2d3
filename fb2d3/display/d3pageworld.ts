@@ -7,10 +7,11 @@
  */
 /// <reference path="../../js/d3.d.ts" />
 /// <reference path="../infrastructure.ts" />
+/// <reference path="../../js/topojson.d.ts" />
+
 
 class D3WorldMapPageDisplay implements InfoNodePageDisplay {
     static mapDataFile = "fb2d3/map/world-110m2.json";
-    static locationsFile = "fb2d3/map/cities.csv";
     svg: ID3Selection;
     prj: ID3Projection;
 
@@ -58,7 +59,7 @@ class D3WorldMapPageDisplay implements InfoNodePageDisplay {
                 .append("path")
                 .attr("d", path);
 
-            // display the cities
+            // display the nodes
             g.selectAll("circle")
                 .data(nodes, function(node:MappedInfoNode){ return node.Name; })
                 .enter()
@@ -94,7 +95,7 @@ class D3WorldMapPageDisplay implements InfoNodePageDisplay {
 
         var g = svg.selectAll("g");
 
-        // display the cities
+        // display the nodes
         g.selectAll("circle")
             .data(nodes, function(node:MappedInfoNode){ return node.Name; })
             .enter()

@@ -1,15 +1,16 @@
 /**
  * Created with JetBrains WebStorm.
  * User: Jerry
- * Date: 5/24/13
- * Time: 6:52 AM
+ * Date: 5/27/13
+ * Time: 2:27 PM
  * To change this template use File | Settings | File Templates.
  */
+
 /// <reference path="../../js/d3.d.ts" />
 /// <reference path="../infrastructure.ts" />
 /// <reference path="../../js/topojson.d.ts" />
 
-class D3OrthogonalPageDisplay implements InfoNodePageDisplay {
+class D3OrthoClipPageDisplay implements InfoNodePageDisplay {
     static mapDataFile = "fb2d3/map/world-110m2.json";
     svg: ID3Selection;
     prj: ID3Projection;
@@ -48,17 +49,15 @@ class D3OrthogonalPageDisplay implements InfoNodePageDisplay {
         var path = d3.geo.path()
             .projection(projection);
         var g = svg.append("g");
-
         var lambda = d3.scale.linear()
             .domain([0, this.width])
             .range([-180, 180]);
-
         var theta = d3.scale.linear()
             .domain([0, this.height])
             .range([90, -90]);
 
         // load the world
-        d3.json(D3OrthogonalPageDisplay.mapDataFile, function(error, topology) {
+        d3.json(D3OrthoClipPageDisplay.mapDataFile, function(error, topology) {
 
             // display the world
             g.selectAll("path")
@@ -68,16 +67,16 @@ class D3OrthogonalPageDisplay implements InfoNodePageDisplay {
                 .attr("d", path);
 
             // display the cities
-            g.selectAll("circle")
+            g.selectAll("path")
                 .data(nodes, function(node:MappedInfoNode){ return node.Name; })
                 .enter()
-                .append("circle")
-                .attr("cx", function(d:MappedInfoNode) {
-                    return projection([d.Longitude, d.Latitude])[0];
+                .append("path")
+                .datum(function(d: MappedInfoNode) {
+                    return {
+                        type: "Point", coordinates: [d.Longitude, d.Latitude]
+                    };
                 })
-                .attr("cy", function(d:MappedInfoNode) {
-                    return projection([d.Longitude, d.Latitude])[1];
-                })
+                .attr("d", path.pointRadius(5))
                 .attr("r", 5)
                 .style("fill", "red")
                 .append("title").text(function(d:MappedInfoNode) { return d.Name; });
@@ -106,23 +105,24 @@ class D3OrthogonalPageDisplay implements InfoNodePageDisplay {
     RefreshPage(nodes: InfoNode[]) {
         var svg = this.getSVG();
         var projection = this.getProjection();
+        var path = d3.geo.path()
+            .projection(projection);
 
         var g = svg.selectAll("g");
 
         // display the cities
-        g.selectAll("circle")
+        g.selectAll("path")
             .data(nodes, function(node:MappedInfoNode){ return node.Name; })
             .enter()
-            .append("circle")
-            .attr("cx", function(d:MappedInfoNode) {
-                return projection([d.Longitude, d.Latitude])[0];
+            .append("path")
+            .datum(function(d: MappedInfoNode) {
+                return {
+                    type: "Point", coordinates: [d.Longitude, d.Latitude]
+                };
             })
-            .attr("cy", function(d:MappedInfoNode) {
-                return projection([d.Longitude, d.Latitude])[1];
-            })
+            .attr("d", path.pointRadius(5))
             .attr("r", 5)
             .style("fill", "red")
             .append("title").text(function(d:MappedInfoNode) { return d.Name; });
-
     }
 }

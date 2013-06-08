@@ -1,7 +1,6 @@
 var D3WorldMapPageDisplay = (function () {
     function D3WorldMapPageDisplay() { }
     D3WorldMapPageDisplay.mapDataFile = "fb2d3/map/world-110m2.json";
-    D3WorldMapPageDisplay.locationsFile = "fb2d3/map/cities.csv";
     D3WorldMapPageDisplay.prototype.getSVG = function () {
         var width, height;
         if(this.svg != undefined) {

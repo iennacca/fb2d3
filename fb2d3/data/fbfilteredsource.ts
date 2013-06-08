@@ -13,6 +13,7 @@ class FBFilteredSource implements InfoNodeSource {
         FBFilteredSource.queryFields = {fields: 'name,id,location,birthday', limit: 20};
     }
 
+    // TODO: Investigate FB token authorization
     private getToken(reply?: (token: string) => void ) {
         if (FBFilteredSource.token != undefined) {
             reply(FBFilteredSource.token);
@@ -102,7 +103,6 @@ class FBFilteredSource implements InfoNodeSource {
                     for (var i = 0; i < response.data.length; i++) {
                         var rawNode = response.data[i];
 
-                        //TODO: Get location!
                         if (rawNode.location == undefined) continue;
 
                         nodeArray[numNodes] = new GenericInfoNode();

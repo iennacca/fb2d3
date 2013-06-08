@@ -1,13 +1,14 @@
 /// <reference path="infrastructure.ts" />
 /// <reference path="data/fbapi.ts" />
-/// <reference path="display/d3api.ts" />
-/// <reference path="display/d3pageortho.ts" />
+
+/// <reference path="data/fbfilteredsource.ts" />
+/// <reference path="display/d3pageorthoclip.ts" />
 /// <reference path="geocoder/gmapgeocoder.ts" />
 
 // All nodes test ----------------
 var dataSource: InfoNodeSource = new FBFilteredSource();
 var geocoder: InfoNodeTransformer = new GMapGeocoder();
-var pageDisplay: InfoNodePageDisplay = new D3OrthogonalPageDisplay();
+var pageDisplay: InfoNodePageDisplay = new D3OrthoClipPageDisplay();
 
 function FullTest() {
     dataSource.GetInfoNodes(function (names) {

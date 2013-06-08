@@ -4,7 +4,6 @@ var D3OrthogonalPageDisplay = (function () {
         this.height = 480;
     }
     D3OrthogonalPageDisplay.mapDataFile = "fb2d3/map/world-110m2.json";
-    D3OrthogonalPageDisplay.locationsFile = "fb2d3/map/cities.csv";
     D3OrthogonalPageDisplay.prototype.getSVG = function () {
         if(this.svg != undefined) {
             return this.svg;
