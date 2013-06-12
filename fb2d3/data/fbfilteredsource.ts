@@ -21,20 +21,31 @@ class FBFilteredSource implements InfoNodeSource {
         }
 
         FB.init({
-            appId: '3983783298', // App ID from the App Dashboard
+            appId: '452737371489730', // App ID from the App Dashboard : 452737371489730 : 3983783298
             status: true, // check the login status upon init?
             cookie: true, // set sessions cookies to allow your server to access the session?
             xfbml: true  // parse XFBML tags on this page?
         });
+
+        var doLogin = function() {
+            FB.login(function(response) {
+                if (response.authResponse) {
+                    FBFilteredSource.token = response.authResponse.accessToken;
+                    reply(FBFilteredSource.token);
+                } else {
+                    throw('Unable to connect or authorize connection.');
+                }
+            },  {scope: 'friends_location, friends_hometown'});
+        };
 
         FB.getLoginStatus(function (response:FBUserAuthenticate) {
             if (response.status === 'connected') {
                 FBFilteredSource.token = response.authResponse.accessToken;
                 reply(FBFilteredSource.token);
             } else if (response.status === 'not_authorized') {
-                throw 'Unauthorized';
+                doLogin();
             } else {
-                throw 'Not logged in';
+                doLogin();
             }
         });
     }

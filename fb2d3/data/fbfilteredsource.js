@@ -12,19 +12,31 @@ var FBFilteredSource = (function () {
             return;
         }
         FB.init({
-            appId: '3983783298',
+            appId: '452737371489730',
             status: true,
             cookie: true,
             xfbml: true
         });
+        var doLogin = function () {
+            FB.login(function (response) {
+                if(response.authResponse) {
+                    FBFilteredSource.token = response.authResponse.accessToken;
+                    reply(FBFilteredSource.token);
+                } else {
+                    throw ('Unable to connect or authorize connection.');
+                }
+            }, {
+                scope: 'friends_location, friends_hometown'
+            });
+        };
         FB.getLoginStatus(function (response) {
             if(response.status === 'connected') {
                 FBFilteredSource.token = response.authResponse.accessToken;
                 reply(FBFilteredSource.token);
             } else if(response.status === 'not_authorized') {
-                throw 'Unauthorized';
+                doLogin();
             } else {
-                throw 'Not logged in';
+                doLogin();
             }
         });
     };
