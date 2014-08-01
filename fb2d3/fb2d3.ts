@@ -1,6 +1,5 @@
 /// <reference path="infrastructure.ts" />
 /// <reference path="data/fbapi.ts" />
-
 /// <reference path="data/fbfilteredsource.ts" />
 /// <reference path="display/d3pageorthoclip.ts" />
 /// <reference path="geocoder/gmapgeocoder.ts" />
@@ -36,7 +35,7 @@ function FirstPageAsync() {
     var gettingData:JQueryPromise<InfoNode[]> = dataSource.GetFirstInfoNodePageAsync();
 
     gettingData.
-        then(function(n) { return geocoder.TransformAsync(n); }).
+        then(function(n) { return geocoder.Transform(n); }).
         done(function(n) { pageDisplay.DrawPage(n); });
 }
 
@@ -44,6 +43,6 @@ function NextPageAsync() {
     var gettingData:JQueryPromise<InfoNode[]> = dataSource.GetNextInfoNodePageAsync();
 
     gettingData.
-        then(function(n) { return geocoder.TransformAsync(n); }).
+        then(function(n) { return geocoder.Transform(n); }).
         done(function(n) { pageDisplay.RefreshPage(n); });
 }

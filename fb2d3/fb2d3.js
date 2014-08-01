@@ -33,7 +33,7 @@ function FirstPageAsync() {
     var gettingData = dataSource.GetFirstInfoNodePageAsync();
 
     gettingData.then(function (n) {
-        return geocoder.TransformAsync(n);
+        return geocoder.Transform(n);
     }).done(function (n) {
         pageDisplay.DrawPage(n);
     });
@@ -43,7 +43,7 @@ function NextPageAsync() {
     var gettingData = dataSource.GetNextInfoNodePageAsync();
 
     gettingData.then(function (n) {
-        return geocoder.TransformAsync(n);
+        return geocoder.Transform(n);
     }).done(function (n) {
         pageDisplay.RefreshPage(n);
     });
