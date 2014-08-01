@@ -1,6 +1,14 @@
 /// <reference path="../infrastructure.ts" />
 
 class OfflineDataSource implements InfoNodeSource {
+    GetFirstInfoNodePage(reply?: (nodes: InfoNode[]) => void) {
+
+    }
+
+    GetNextInfoNodePage(reply?: (nodes: InfoNode[]) => void) {
+
+    }
+
     GetInfoNodes(reply?: (nodes: InfoNode[]) => void ) {
         var numNodes = 10;
         var nodeArray = [];
@@ -13,7 +21,7 @@ class OfflineDataSource implements InfoNodeSource {
         reply(nodeArray);
     }
 
-    GetFirstInfoNodePageAsync(): JQueryPromise {
+    GetFirstInfoNodePageAsync(): JQueryPromise<InfoNode[]> {
         var numNodes = 10;
         var nodeArray = [];
         var def = $.Deferred();
@@ -27,7 +35,7 @@ class OfflineDataSource implements InfoNodeSource {
         return def.promise();
     }
 
-    GetNextInfoNodePageAsync(): JQueryPromise {
+    GetNextInfoNodePageAsync(): JQueryPromise<InfoNode[]> {
         var numNodes = 10;
         var nodeArray = [];
         var def = $.Deferred();

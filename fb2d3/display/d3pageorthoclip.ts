@@ -12,8 +12,8 @@
 
 class D3OrthoClipPageDisplay implements InfoNodePageDisplay {
     static mapDataFile = "fb2d3/map/world-110m2.json";
-    svg: ID3Selection;
-    prj: ID3Projection;
+    svg: D3.Selection;
+    prj: D3.Geo.Projection;
     width: number;
     height: number;
 
@@ -21,7 +21,7 @@ class D3OrthoClipPageDisplay implements InfoNodePageDisplay {
         this.width = 800; this.height = 480;
     }
 
-    private getSVG(): ID3Selection {
+    private getSVG(): D3.Selection {
         if (this.svg != undefined)
             return this.svg;
 
@@ -31,7 +31,7 @@ class D3OrthoClipPageDisplay implements InfoNodePageDisplay {
         return this.svg;
     }
 
-    private getProjection() : ID3Projection {
+    private getProjection() : D3.Geo.Projection {
         if (this.prj != undefined)
             return this.prj;
 
@@ -83,7 +83,7 @@ class D3OrthoClipPageDisplay implements InfoNodePageDisplay {
         });
 
         // rotate the map
-        var rotation: bool;
+        var rotation: boolean;
 
         svg.on("mousedown", function() { rotation = true; });
         svg.on("mousemove", function() {

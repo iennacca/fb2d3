@@ -6,24 +6,25 @@
  * To change this template use File | Settings | File Templates.
  */
 /// <reference path="../infrastructure.ts" />
+/// <reference path="../../js/google.maps.d.ts" />
 
 
 class GoogleGeocodedInfoNode implements MappedInfoNode {
     constructor(sourceNode: InfoNode) {
         this.Name = sourceNode.Name;
-        this.Id = sourceNode.Id;
+        this.id = sourceNode.id;
         this.TextLocation = sourceNode.TextLocation;
         this.Latitude = 0;
         this.Longitude = 0;
     }
 
     Name: string;
-    Id: number;
+    id: number;
     TextLocation: string;
     Latitude: number;
     Longitude: number;
 
-    public GeocodeAddress(): JQueryPromise {
+    public GeocodeAddress(): JQueryPromise<InfoNode[]> {
         var geocoder = new google.maps.Geocoder();
         var address = this.TextLocation;
         var def = $.Deferred();
@@ -53,8 +54,8 @@ class GMapGeocoder implements InfoNodeTransformer {
         return geocodedNodes;
     }
 
-    TransformAsync(nodes: InfoNode[]): JQueryPromise {
-        var def: JQueryDeferred = $.Deferred();
+    TransformAsync(nodes: InfoNode[]): JQueryPromise<InfoNode[]> {
+        var def: JQueryDeferred<InfoNode[]> = $.Deferred();
         var geocodedNodes: GoogleGeocodedInfoNode[] = [];
         var promises = [];
 

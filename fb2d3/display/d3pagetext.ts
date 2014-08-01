@@ -2,9 +2,9 @@
 /// <reference path="../infrastructure.ts" />
 
 class D3TextPageDisplay implements InfoNodePageDisplay {
-    svg: ID3Selection;
+    svg: D3.Selection;
 
-    private getSVG(): ID3Selection {
+    private getSVG(): D3.Selection {
         var width, height: number;
 
         if (this.svg != undefined)

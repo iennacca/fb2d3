@@ -33,7 +33,7 @@ function NextPage() {
 }
 
 function FirstPageAsync() {
-    var gettingData:JQueryPromise = dataSource.GetFirstInfoNodePageAsync();
+    var gettingData:JQueryPromise<InfoNode[]> = dataSource.GetFirstInfoNodePageAsync();
 
     gettingData.
         then(function(n) { return geocoder.TransformAsync(n); }).
@@ -41,7 +41,7 @@ function FirstPageAsync() {
 }
 
 function NextPageAsync() {
-    var gettingData:JQueryPromise = dataSource.GetNextInfoNodePageAsync();
+    var gettingData:JQueryPromise<InfoNode[]> = dataSource.GetNextInfoNodePageAsync();
 
     gettingData.
         then(function(n) { return geocoder.TransformAsync(n); }).

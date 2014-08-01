@@ -1,20 +1,31 @@
+/// <reference path="../infrastructure.ts" />
 var OfflineDataSource = (function () {
-    function OfflineDataSource() { }
+    function OfflineDataSource() {
+    }
+    OfflineDataSource.prototype.GetFirstInfoNodePage = function (reply) {
+    };
+
+    OfflineDataSource.prototype.GetNextInfoNodePage = function (reply) {
+    };
+
     OfflineDataSource.prototype.GetInfoNodes = function (reply) {
         var numNodes = 10;
         var nodeArray = [];
-        for(var i = 0; i < numNodes; i++) {
+
+        for (var i = 0; i < numNodes; i++) {
             nodeArray[i] = new GenericInfoNode();
             nodeArray[i].Name = "Name" + i;
             nodeArray[i].Id = i * 10000;
         }
         reply(nodeArray);
     };
+
     OfflineDataSource.prototype.GetFirstInfoNodePageAsync = function () {
         var numNodes = 10;
         var nodeArray = [];
         var def = $.Deferred();
-        for(var i = 0; i < numNodes; i++) {
+
+        for (var i = 0; i < numNodes; i++) {
             nodeArray[0] = new GenericInfoNode();
             nodeArray[0].Name = "Name" + i;
             nodeArray[0].Id = i * 10000;
@@ -22,11 +33,13 @@ var OfflineDataSource = (function () {
         }
         return def.promise();
     };
+
     OfflineDataSource.prototype.GetNextInfoNodePageAsync = function () {
         var numNodes = 10;
         var nodeArray = [];
         var def = $.Deferred();
-        for(var i = 0; i < numNodes; i++) {
+
+        for (var i = 0; i < numNodes; i++) {
             nodeArray[0] = new GenericInfoNode();
             nodeArray[0].Name = "Name" + i;
             nodeArray[0].Id = i * 10000;
@@ -36,4 +49,4 @@ var OfflineDataSource = (function () {
     };
     return OfflineDataSource;
 })();
-//@ sourceMappingURL=odapi.js.map
+//# sourceMappingURL=odapi.js.map

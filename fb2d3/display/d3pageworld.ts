@@ -12,10 +12,10 @@
 
 class D3WorldMapPageDisplay implements InfoNodePageDisplay {
     static mapDataFile = "fb2d3/map/world-110m2.json";
-    svg: ID3Selection;
-    prj: ID3Projection;
+    svg: D3.Selection;
+    prj: D3.Geo.Projection;
 
-    private getSVG(): ID3Selection {
+    private getSVG(): D3.Selection {
         var width, height: number;
 
         if (this.svg != undefined)
@@ -28,7 +28,7 @@ class D3WorldMapPageDisplay implements InfoNodePageDisplay {
         return this.svg;
     }
 
-    private getProjection() : ID3Projection {
+    private getProjection() : D3.Geo.Projection {
         if (this.prj != undefined)
             return this.prj;
 

@@ -38,7 +38,7 @@ class FBFilteredSource implements InfoNodeSource {
             },  {scope: 'friends_location, friends_hometown'});
         };
 
-        FB.getLoginStatus(function (response:FBUserAuthenticate) {
+        FB.getLoginStatus(function (response:IFacebookUserAuthenticate) {
             if (response.status === 'connected') {
                 FBFilteredSource.token = response.authResponse.accessToken;
                 reply(FBFilteredSource.token);
@@ -64,7 +64,7 @@ class FBFilteredSource implements InfoNodeSource {
 
                     nodeArray[i] = new GenericInfoNode();
                     nodeArray[i].Name = rawNode.name;
-                    nodeArray[i].Id = rawNode.id;
+                    nodeArray[i].id = rawNode.id;
                 }
 
                 reply(nodeArray);
@@ -81,7 +81,7 @@ class FBFilteredSource implements InfoNodeSource {
         this.getNodePage(reply);
     }
 
-    GetFirstInfoNodePageAsync(): JQueryPromise {
+    GetFirstInfoNodePageAsync(): JQueryPromise<InfoNode[]> {
         FBFilteredSource.pagingQuery = FBFilteredSource.startQuery;
         var def = $.Deferred();
         this.getNodePage(function(nodes: InfoNode[]) {
@@ -90,7 +90,7 @@ class FBFilteredSource implements InfoNodeSource {
         return def.promise();
     }
 
-    GetNextInfoNodePageAsync(): JQueryPromise {
+    GetNextInfoNodePageAsync(): JQueryPromise<InfoNode[]> {
         // pagingQuery has been reset by initial call to GetFirstInfoNodePageAsync()
         var def = $.Deferred();
         this.getNodePage(function(nodes: InfoNode[]) {
@@ -118,7 +118,7 @@ class FBFilteredSource implements InfoNodeSource {
 
                         nodeArray[numNodes] = new GenericInfoNode();
                         nodeArray[numNodes].Name = rawNode.name;
-                        nodeArray[numNodes].Id = rawNode.id;
+                        nodeArray[numNodes].id = rawNode.id;
                         nodeArray[numNodes].TextLocation = rawNode.location.name;
                         numNodes++;
                     }

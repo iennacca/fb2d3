@@ -2,10 +2,10 @@
 /// <reference path="../infrastructure.ts" />
 
 class D3NodeDisplay {
-    svg: ID3Selection;
-    frc: ID3ForceLayout;
+    svg: D3.Selection;
+    frc: D3.Layout.ForceLayout;
 
-    private getSVG(): ID3Selection {
+    private getSVG(): D3.Selection {
         var width, height: number;
 
         if (this.svg != undefined)
@@ -18,7 +18,7 @@ class D3NodeDisplay {
         return this.svg;
     }
 
-    private getForceLayout() : ID3ForceLayout {
+    private getForceLayout() : D3.Layout.ForceLayout {
         if (this.frc != undefined)
             return this.frc;
 

@@ -1,5 +1,5 @@
 /// <reference path="../../js/facebook.d.ts" />
-/// <reference path=../infrastructure.ts" />
+/// <reference path="../infrastructure.ts" />
 
 class FBDataSource implements InfoNodeSource {
     //TODO: Switch this back to instance member!
@@ -19,7 +19,7 @@ class FBDataSource implements InfoNodeSource {
             xfbml: true  // parse XFBML tags on this page?
         });
 
-        FB.getLoginStatus(function (response:FBUserAuthenticate) {
+        FB.getLoginStatus(function (response:IFacebookUserAuthenticate) {
             if (response.status === 'connected') {
                 FBDataSource.token = response.authResponse.accessToken;
                 reply(FBDataSource.token);
@@ -41,7 +41,7 @@ class FBDataSource implements InfoNodeSource {
                     for (var i = 0; i < response.data.length; i++) {
                         nodeArray[i] = new GenericInfoNode();
                         nodeArray[i].Name = response.data[i].name;
-                        nodeArray[i].Id = response.data[i].id;
+                        nodeArray[i].id = response.data[i].id;
                     }
                 }
                 else
@@ -62,7 +62,7 @@ class FBDataSource implements InfoNodeSource {
                     for (var i = 0; i < response.data.length; i++) {
                         nodeArray[i] = new GenericInfoNode();
                         nodeArray[i].Name = response.data[i].name;
-                        nodeArray[i].Id = response.data[i].id;
+                        nodeArray[i].id = response.data[i].id;
                     }
                     FBDataSource.graphAPIQuery = response.paging.next;
                     console.log('GraphAPIQuery = ' + FBDataSource.graphAPIQuery);
@@ -88,7 +88,7 @@ class FBDataSource implements InfoNodeSource {
                     for (var i = 0; i < response.data.length; i++) {
                         nodeArray[i] = new GenericInfoNode();
                         nodeArray[i].Name = response.data[i].name;
-                        nodeArray[i].Id = response.data[i].id;
+                        nodeArray[i].id = response.data[i].id;
                     }
                     FBDataSource.graphAPIQuery = response.paging.next;
                     console.log('GraphAPIQuery = ' + FBDataSource.graphAPIQuery);
@@ -99,6 +99,20 @@ class FBDataSource implements InfoNodeSource {
                 reply(nodeArray);
             });
         });
+    }
+
+    GetFirstInfoNodePageAsync(): JQueryPromise<InfoNode[]> {
+        var def = $.Deferred();
+        var nodeArray: InfoNode[] = [];
+        def.resolve(nodeArray);
+        return def.promise();
+    }
+
+    GetNextInfoNodePageAsync(): JQueryPromise<InfoNode[]> {
+        var def = $.Deferred();
+        var nodeArray: InfoNode[] = [];
+        def.resolve(nodeArray);
+        return def.promise();
     }
 
     // test stuff
@@ -116,7 +130,7 @@ class FBDataSource implements InfoNodeSource {
         });
     }
 
-    private testGetInfoNodes(reply?: (nodes: InfoNode[]) => void ) {
+    private testGetInfoNodesExt(reply?: (nodes: InfoNode[]) => void ) {
         this.getToken(function (token) {
             // /me/friends?limit=10
             // /me/friends?fields=address,hometown,location,locale,name
@@ -127,7 +141,7 @@ class FBDataSource implements InfoNodeSource {
                 for (var i = 0; i < response.data.length; i++) {
                     nodeArray[i] = new GenericInfoNode();
                     nodeArray[i].Name = response.data[i].name;
-                    nodeArray[i].Id = response.data[i].id;
+                    nodeArray[i].id = response.data[i].id;
                 }
                 reply(nodeArray);
             });

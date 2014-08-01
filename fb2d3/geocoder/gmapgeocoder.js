@@ -1,7 +1,16 @@
+/**
+* Created with JetBrains WebStorm.
+* User: Jerry
+* Date: 5/2/13
+* Time: 10:56 PM
+* To change this template use File | Settings | File Templates.
+*/
+/// <reference path="../infrastructure.ts" />
+/// <reference path="../../js/google.maps.d.ts" />
 var GoogleGeocodedInfoNode = (function () {
     function GoogleGeocodedInfoNode(sourceNode) {
         this.Name = sourceNode.Name;
-        this.Id = sourceNode.Id;
+        this.id = sourceNode.id;
         this.TextLocation = sourceNode.TextLocation;
         this.Latitude = 0;
         this.Longitude = 0;
@@ -11,10 +20,9 @@ var GoogleGeocodedInfoNode = (function () {
         var address = this.TextLocation;
         var def = $.Deferred();
         var self = this;
-        geocoder.geocode({
-            'address': address
-        }, function (results, status) {
-            if(status == google.maps.GeocoderStatus.OK) {
+
+        geocoder.geocode({ 'address': address }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
                 console.log(results[0].geometry.location);
                 self.Latitude = results[0].geometry.location.lat();
                 self.Longitude = results[0].geometry.location.lng();
@@ -27,20 +35,25 @@ var GoogleGeocodedInfoNode = (function () {
     };
     return GoogleGeocodedInfoNode;
 })();
+
 var GMapGeocoder = (function () {
-    function GMapGeocoder() { }
+    function GMapGeocoder() {
+    }
     GMapGeocoder.prototype.Transform = function (nodes) {
         var geocodedNodes = [];
-        for(var i = 0; i < nodes.length; i++) {
+
+        for (var i = 0; i < nodes.length; i++) {
             geocodedNodes[i] = new GoogleGeocodedInfoNode(nodes[i]);
         }
         return geocodedNodes;
     };
+
     GMapGeocoder.prototype.TransformAsync = function (nodes) {
         var def = $.Deferred();
         var geocodedNodes = [];
         var promises = [];
-        for(var i = 0; i < nodes.length; i++) {
+
+        for (var i = 0; i < nodes.length; i++) {
             geocodedNodes[i] = new GoogleGeocodedInfoNode(nodes[i]);
             promises.push(geocodedNodes[i].GeocodeAddress());
         }
@@ -51,4 +64,4 @@ var GMapGeocoder = (function () {
     };
     return GMapGeocoder;
 })();
-//@ sourceMappingURL=gmapgeocoder.js.map
+//# sourceMappingURL=gmapgeocoder.js.map

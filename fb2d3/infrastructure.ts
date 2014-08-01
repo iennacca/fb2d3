@@ -2,13 +2,13 @@
 
 interface InfoNode {
     Name: string;
-    Id: number;
+    id: number;
     TextLocation: string;
 }
 
 class GenericInfoNode implements InfoNode {
     Name: string;
-    Id: number;
+    id: number;
     TextLocation: string;
 }
 
@@ -21,8 +21,8 @@ interface InfoNodeSource {
     GetInfoNodes( reply? :(nodes: InfoNode[]) => void);
     GetFirstInfoNodePage( reply? :(nodes: InfoNode[]) => void);
     GetNextInfoNodePage( reply? :(nodes: InfoNode[]) => void);
-    GetFirstInfoNodePageAsync() : JQueryPromise;
-    GetNextInfoNodePageAsync() : JQueryPromise;
+    GetFirstInfoNodePageAsync() : JQueryPromise<InfoNode[]>;
+    GetNextInfoNodePageAsync() : JQueryPromise<InfoNode[]>;
 }
 
 interface InfoNodePageDisplay {
@@ -32,5 +32,5 @@ interface InfoNodePageDisplay {
 
 interface InfoNodeTransformer {
     Transform(nodes: InfoNode[]): InfoNode[];
-    TransformAsync(nodes: InfoNode[]): JQueryPromise;
+    TransformAsync(nodes: InfoNode[]): JQueryPromise<InfoNode[]>;
 }

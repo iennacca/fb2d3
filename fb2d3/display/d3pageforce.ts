@@ -3,10 +3,10 @@
 
 
 class D3ForcePageDisplay implements InfoNodePageDisplay {
-    svg: ID3Selection;
-    frc: ID3ForceLayout;
+    svg: D3.Selection;
+    frc: D3.Layout.ForceLayout;
 
-    private getSVG(): ID3Selection {
+    private getSVG(): D3.Selection {
         var width, height: number;
 
         if (this.svg != undefined)
@@ -19,7 +19,7 @@ class D3ForcePageDisplay implements InfoNodePageDisplay {
         return this.svg;
     }
 
-    private getForceLayout() : ID3ForceLayout {
+    private getForceLayout() : D3.Layout.ForceLayout {
         if (this.frc != undefined)
             return this.frc;
 
@@ -63,8 +63,8 @@ class D3ForcePageDisplay implements InfoNodePageDisplay {
         var node = svg.selectAll(".node")
             .data(names)
             .attr("class", "node")
-            .attr("r", function (d: InfoNode) { return d.Id / 100000; })
-            .style("fill", function (d: InfoNode) { return d.Id; })
+            .attr("r", function (d: InfoNode) { return d.id / 100000; })
+            .style("fill", function (d: InfoNode) { return d.id; })
             .call(force.drag);
 
         force.nodes(names).start();
